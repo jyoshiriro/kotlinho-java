@@ -1,9 +1,5 @@
 package br.com.viradatecnologica.kotlinho.java;
 
-/**
- * Created by jyoshiriro on 6/25/17.
- */
-
 public class User {
 
     private Integer id;
@@ -58,7 +54,6 @@ class Address {
 
     private String street;
     private String city;
-    private String zipcode;
 
     private Geo geo;
 
@@ -77,14 +72,6 @@ class Address {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
     }
 
     public Geo getGeo() {

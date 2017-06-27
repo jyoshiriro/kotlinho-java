@@ -9,3 +9,5 @@
 .externalNativeBuild
 /app/build
 *.classes
+/.idea
+.idea

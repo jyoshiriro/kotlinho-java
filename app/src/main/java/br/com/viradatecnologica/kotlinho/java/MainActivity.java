@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import feign.Feign;
 import feign.gson.GsonDecoder;
 
@@ -23,9 +27,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvEmail;
     private TextView tvStreet;
     private TextView tvCity;
-    private TextView tvZipcode;
     private TextView tvLat;
     private TextView tvLng;
+
+    private List<TextView> textViews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,23 @@ public class MainActivity extends AppCompatActivity {
         initComponents();
 
         configBtnOnClick();
+    }
+
+    private void initComponents() {
+        btnSearch = (Button) findViewById(R.id.btnSearch);
+        edUserid = (EditText) findViewById(R.id.etUserid);
+
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
+        tvStreet = (TextView) findViewById(R.id.tvStreet);
+        tvCity = (TextView) findViewById(R.id.tvCity);
+        tvLat = (TextView) findViewById(R.id.tvLat);
+        tvLng = (TextView) findViewById(R.id.tvLng);
+
+        textViews.addAll(Arrays.asList(
+                tvName, tvUsername, tvEmail,
+                tvStreet, tvCity, tvLat, tvLng));
     }
 
     private void configBtnOnClick() {
@@ -70,24 +92,11 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                     clearTextViews();
-
                 } else {
-
                     setTextViews(user);
                 }
             }
         });
-    }
-
-    private void clearTextViews() {
-        tvName.setText("");
-        tvUsername.setText("");
-        tvEmail.setText("");
-        tvStreet.setText("");
-        tvCity.setText("");
-        tvZipcode.setText("");
-        tvLat.setText("");
-        tvLng.setText("");
     }
 
     private void setTextViews(User user) {
@@ -98,23 +107,17 @@ public class MainActivity extends AppCompatActivity {
         Address address = user.getAddress();
         tvStreet.setText(address.getStreet());
         tvCity.setText(address.getCity());
-        tvZipcode.setText(address.getZipcode());
-        tvLat.setText(address.getGeo().getLat().toString());
-        tvLng.setText(address.getGeo().getLng().toString());
+
+        if (address.getGeo() != null) {
+            if (address.getGeo().getLat() != null)
+                tvLat.setText(address.getGeo().getLat().toString());
+            if (address.getGeo().getLng() != null)
+                tvLng.setText(address.getGeo().getLng().toString());
+        }
     }
 
-    private void initComponents() {
-        btnSearch = (Button) findViewById(R.id.btnSearch);
-        edUserid = (EditText) findViewById(R.id.etUserid);
-
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvUsername = (TextView) findViewById(R.id.tvUsername);
-        tvEmail = (TextView) findViewById(R.id.tvEmail);
-        tvStreet = (TextView) findViewById(R.id.tvStreet);
-        tvCity = (TextView) findViewById(R.id.tvCity);
-        tvZipcode = (TextView) findViewById(R.id.tvZipcode);
-        tvLat = (TextView) findViewById(R.id.tvLat);
-        tvLng = (TextView) findViewById(R.id.tvLng);
+    private void clearTextViews() {
+        textViews.forEach( it -> it.setText("") );
     }
 
     private void configPolicy() {
